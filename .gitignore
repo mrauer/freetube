@@ -1,3 +1,4 @@
 .idea
 client_secret.json
-freetube
+bin/linux/freetube
+bin/osx/freetube
