@@ -7,6 +7,7 @@ import (
 
 	"github.com/mrauer/freetube/lib"
 	"google.golang.org/api/youtube/v3"
+	"os/exec"
 )
 
 var (
@@ -47,6 +48,14 @@ func main() {
 
 	for _, video := range videos.Items {
 		fmt.Println(video.Id.VideoId)
+
+		cmd := exec.Command("youtubedr", "download", "-d", "videos", "-q", "hd720", video.Id.VideoId)
+		err := cmd.Run()
+
+		if err != nil {
+			fmt.Println("Error downloading video")
+		}
+		break
 	}
 
 }

@@ -1,6 +1,8 @@
+.DS_Store
 .idea
 client_secret.json
 freetube
 bin/osx/freetube
 bin/linux/freetube
 bin/windows/freetube.exe
+videos/*.mp4
