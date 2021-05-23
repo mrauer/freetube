@@ -41,7 +41,7 @@ import (
 //      config.RedirectURL = "urn:ietf:wg:oauth:2.0:oob"
 //   3. When running the script, complete the auth flow. Then copy the
 //      authorization code from the browser and enter it on the command line.
-const launchWebServer = true
+const launchWebServer = false
 
 const missingClientSecretsMessage = `
 Please configure OAuth 2.0

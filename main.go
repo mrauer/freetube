@@ -22,20 +22,6 @@ var (
 	playlistId             = flag.String("playlistId", "", "Retrieve information about this playlist.")
 )
 
-func subscriptionsList(service *youtube.Service, part string, channelId string, hl string, maxResults int64, mine bool, onBehalfOfContentOwner string, pageToken string, playlistId string) *youtube.SubscriptionListResponse {
-	call := service.Subscriptions.List([]string{part})
-	if channelId != "" {
-		call = call.ChannelId(channelId)
-	}
-	if mine != false {
-		call = call.Mine(true)
-	}
-	call = call.MaxResults(maxResults)
-	response, err := call.Do()
-	lib.HandleError(err, "")
-	return response
-}
-
 func main() {
 	flag.Parse()
 
@@ -49,9 +35,18 @@ func main() {
 		log.Fatalf("Error creating YouTube client: %v", err)
 	}
 
-	subscriptions := subscriptionsList(service, "snippet,contentDetails", *channelId, *hl, *maxResults, *mine, *onBehalfOfContentOwner, *pageToken, *playlistId)
+	// https://www.youtube.com/channel/UCHXyS9njDTc-HbnfRr1k6uA
+	subscriptions := lib.SubscriptionsList(service, "snippet", *channelId, *hl, *maxResults, *mine, *onBehalfOfContentOwner, *pageToken, *playlistId)
 
 	for _, subscription := range subscriptions.Items {
-		fmt.Println(fmt.Sprintf("%s - %s", subscription.Id, subscription.Snippet.Title))
+		fmt.Println(fmt.Sprintf("%s - %s", subscription.Snippet.ResourceId.ChannelId, subscription.Snippet.Title))
 	}
+
+	// https://www.youtube.com/watch?v=EJmmKycKHiI
+	videos := lib.SearchList(service, "id,snippet", "UCynFUJ4zUVuh3GX7bABTjGQ", 8)
+
+	for _, video := range videos.Items {
+		fmt.Println(video.Id.VideoId)
+	}
+
 }
