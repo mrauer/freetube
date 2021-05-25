@@ -41,18 +41,9 @@ import (
 //      config.RedirectURL = "urn:ietf:wg:oauth:2.0:oob"
 //   3. When running the script, complete the auth flow. Then copy the
 //      authorization code from the browser and enter it on the command line.
-const launchWebServer = false
 
-const missingClientSecretsMessage = `
-Please configure OAuth 2.0
-To make this sample run, you need to populate the client_secrets.json file
-found at:
-   %v
-with information from the {{ Google Cloud Console }}
-{{ https://cloud.google.com/console }}
-For more information about the client_secrets.json file format, please visit:
-https://developers.google.com/api-client-library/python/guide/aaa_client_secrets
-`
+const missingClientSecretsMessage = `Please configure OAuth 2.0
+To make this sample run, you need to populate the client_secrets.json file`
 
 // getClient uses a Context and Config to retrieve a Token
 // then generate a Client. It returns the generated Client.
@@ -71,6 +62,9 @@ func GetClient(scope string) *http.Client {
 		log.Fatalf("Unable to parse client secret file to config: %v", err)
 	}
 
+	// Prompt authentication.
+	_, tokenFromPrompt := os.LookupEnv("TOKEN_FROM_PROMPT")
+
 	// Use a redirect URI like this for a web app. The redirect URI must be a
 	// valid one for your OAuth2 credentials.
 	config.RedirectURL = "http://localhost:8090"
@@ -84,12 +78,12 @@ func GetClient(scope string) *http.Client {
 	tok, err := tokenFromFile(cacheFile)
 	if err != nil {
 		authURL := config.AuthCodeURL("state-token", oauth2.AccessTypeOffline)
-		if launchWebServer {
-			fmt.Println("Trying to get token from web")
-			tok, err = getTokenFromWeb(config, authURL)
-		} else {
+		if tokenFromPrompt {
 			fmt.Println("Trying to get token from prompt")
 			tok, err = getTokenFromPrompt(config, authURL)
+		} else {
+			fmt.Println("Trying to get token from web")
+			tok, err = getTokenFromWeb(config, authURL)
 		}
 		if err == nil {
 			saveToken(cacheFile, tok)

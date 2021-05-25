@@ -1,6 +1,8 @@
-FROM golang:1.13
+FROM golang:1.14
 
 ENV GOPATH /usr/src/app/go
+ENV TOKEN_FROM_PROMPT 1
+
 ARG dir=$GOPATH/src/github.com/mrauer
 
 WORKDIR $GOPATH/src/github.com/mrauer/freetube
