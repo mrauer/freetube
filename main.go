@@ -5,13 +5,15 @@ import (
 	"fmt"
 	"log"
 
+	"os/exec"
+
 	"github.com/mrauer/freetube/lib"
 	"google.golang.org/api/youtube/v3"
-	"os/exec"
 )
 
 const (
-	SEARCH_LIST_MAX_RESULTS = 8
+	SEARCH_LIST_MAX_RESULTS   = 8
+	MAX_PLAYLISTS_IN_RESPONSE = 7
 )
 
 var (
@@ -19,7 +21,7 @@ var (
 
 	channelId              = flag.String("channelId", "", "Retrieve playlists for this channel. Value is a YouTube channel ID.")
 	hl                     = flag.String("hl", "", "Retrieve localized resource metadata for the specified application language.")
-	maxResults             = flag.Int64("maxResults", 7, "The maximum number of playlist resources to include in the API response.")
+	maxResults             = flag.Int64("maxResults", MAX_PLAYLISTS_IN_RESPONSE, "The maximum number of playlist resources to include in the API response.")
 	mine                   = flag.Bool("mine", false, "List playlists for authenticated user's channel. Default: false.")
 	onBehalfOfContentOwner = flag.String("onBehalfOfContentOwner", "", "Indicates that the request's auth credentials identify a user authorized to act on behalf of the specified content owner.")
 	pageToken              = flag.String("pageToken", "", "Token that identifies a specific page in the result set that should be returned.")
@@ -58,6 +60,7 @@ func main() {
 		if err != nil {
 			fmt.Println(fmt.Printf("Error downloading video [%s]", err.Error()))
 		}
+
 		break
 	}
 }
