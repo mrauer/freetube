@@ -63,6 +63,7 @@ func main() {
 
 	fmt.Println("")
 	fmt.Print("Choose from the above subscriptions which one to download all videos from: ")
+
 	subscription_id_str, _ := reader.ReadString('\n')
 
 	subscription_id, _ := strconv.Atoi(strings.TrimSuffix(subscription_id_str, "\n"))

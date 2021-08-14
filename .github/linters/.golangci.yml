@@ -30,7 +30,6 @@ linters:
     - nolintlint
     - nlreturn
     - misspell
-    - scopelint
     - ineffassign
     - goprintffuncname
     - gomodguard

@@ -1,3 +1,5 @@
+# FreeTube
+
 <!-- PROJECT LOGO -->
 <p align="center">
   <a href="https://github.com/mrauer/freetube">
@@ -26,6 +28,8 @@
 <!-- COMMANDS -->
 ## Commands
 
+### Authorize your device
+
 Once you start the software for the first time you will be asked to authorize your device.
 
 If you are in the dev environment (TOKEN_FROM_PROMPT set to 1), then you will be asked to visit a web page and get token from there:
@@ -34,7 +38,7 @@ If you are in the dev environment (TOKEN_FROM_PROMPT set to 1), then you will be
 ./freetube
 
 
-https://accounts.google.com/o/oauth2/auth?access_type=offline&clie...
+https://accounts.google.com/o/oauth2/auth?access_type=offline&client ...
 
 4/0AX4XfWg9TyeoxQ1yvMyE09yA14OM2pXv-CfKOj11h9vsp79YaFaFOotrDSoWxxxxxxxxxx 
 (this is what the token should look like)
@@ -44,6 +48,7 @@ In case you've downloaded the software, a web page will open and you just need t
 
 There might be some conflicts. Make sure that `.credentials/youtube-go.json` is removed before you proceed.
 
+### Choose from the list of subscriptions
 
 From now on your device is authorized and we can proceed with the next step.
 
