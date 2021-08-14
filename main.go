@@ -10,6 +10,10 @@ import (
 	"os/exec"
 )
 
+const (
+	SEARCH_LIST_MAX_RESULTS = 8
+)
+
 var (
 	method = flag.String("method", "list", "The API method to execute. (List is the only method that this sample currently supports.")
 
@@ -29,6 +33,7 @@ func main() {
 	if *channelId == "" && *mine == false && *playlistId == "" {
 		log.Fatalf("You must either set a value for the channelId or playlistId flag or set the mine flag to 'true'.")
 	}
+
 	client := lib.GetClient(youtube.YoutubeReadonlyScope)
 
 	service, err := youtube.New(client)
@@ -36,15 +41,13 @@ func main() {
 		log.Fatalf("Error creating YouTube client: %v", err)
 	}
 
-	// https://www.youtube.com/channel/UCHXyS9njDTc-HbnfRr1k6uA
 	subscriptions := lib.SubscriptionsList(service, "snippet", *channelId, *hl, *maxResults, *mine, *onBehalfOfContentOwner, *pageToken, *playlistId)
 
 	for _, subscription := range subscriptions.Items {
 		fmt.Println(fmt.Sprintf("%s - %s", subscription.Snippet.ResourceId.ChannelId, subscription.Snippet.Title))
 	}
 
-	// https://www.youtube.com/watch?v=EJmmKycKHiI
-	videos := lib.SearchList(service, "id,snippet", "UCynFUJ4zUVuh3GX7bABTjGQ", 8)
+	videos := lib.SearchList(service, "id,snippet", "UCynFUJ4zUVuh3GX7bABTjGQ", SEARCH_LIST_MAX_RESULTS)
 
 	for _, video := range videos.Items {
 		fmt.Println(video.Id.VideoId)
@@ -57,5 +60,4 @@ func main() {
 		}
 		break
 	}
-
 }

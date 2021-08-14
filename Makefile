@@ -2,7 +2,7 @@ build:
 	docker build -t freetube:latest .
 
 dev:
-	docker build -t freetube:latest . && docker run -it --rm -v ${CURDIR}:/usr/src/app/go/src/github.com/mrauer/freetube freetube:latest && docker exec -it freetube:latest
+	docker build --progress=plain -t freetube:latest . && docker run -it --rm -v ${CURDIR}:/usr/src/app/go/src/github.com/mrauer/freetube freetube:latest && docker exec -it freetube:latest
 
 binary:
 	env GOOS=linux GOARCH=amd64 go build -i -o freetube
