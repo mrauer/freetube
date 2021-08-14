@@ -5,9 +5,15 @@ import (
 	"fmt"
 	"log"
 
+	"os/exec"
+
 	"github.com/mrauer/freetube/lib"
 	"google.golang.org/api/youtube/v3"
-	"os/exec"
+)
+
+const (
+	SEARCH_LIST_MAX_RESULTS   = 8
+	MAX_PLAYLISTS_IN_RESPONSE = 7
 )
 
 var (
@@ -15,7 +21,7 @@ var (
 
 	channelId              = flag.String("channelId", "", "Retrieve playlists for this channel. Value is a YouTube channel ID.")
 	hl                     = flag.String("hl", "", "Retrieve localized resource metadata for the specified application language.")
-	maxResults             = flag.Int64("maxResults", 7, "The maximum number of playlist resources to include in the API response.")
+	maxResults             = flag.Int64("maxResults", MAX_PLAYLISTS_IN_RESPONSE, "The maximum number of playlist resources to include in the API response.")
 	mine                   = flag.Bool("mine", false, "List playlists for authenticated user's channel. Default: false.")
 	onBehalfOfContentOwner = flag.String("onBehalfOfContentOwner", "", "Indicates that the request's auth credentials identify a user authorized to act on behalf of the specified content owner.")
 	pageToken              = flag.String("pageToken", "", "Token that identifies a specific page in the result set that should be returned.")
@@ -29,6 +35,7 @@ func main() {
 	if *channelId == "" && *mine == false && *playlistId == "" {
 		log.Fatalf("You must either set a value for the channelId or playlistId flag or set the mine flag to 'true'.")
 	}
+
 	client := lib.GetClient(youtube.YoutubeReadonlyScope)
 
 	service, err := youtube.New(client)
@@ -36,15 +43,13 @@ func main() {
 		log.Fatalf("Error creating YouTube client: %v", err)
 	}
 
-	// https://www.youtube.com/channel/UCHXyS9njDTc-HbnfRr1k6uA
 	subscriptions := lib.SubscriptionsList(service, "snippet", *channelId, *hl, *maxResults, *mine, *onBehalfOfContentOwner, *pageToken, *playlistId)
 
 	for _, subscription := range subscriptions.Items {
 		fmt.Println(fmt.Sprintf("%s - %s", subscription.Snippet.ResourceId.ChannelId, subscription.Snippet.Title))
 	}
 
-	// https://www.youtube.com/watch?v=EJmmKycKHiI
-	videos := lib.SearchList(service, "id,snippet", "UCynFUJ4zUVuh3GX7bABTjGQ", 8)
+	videos := lib.SearchList(service, "id,snippet", "UCynFUJ4zUVuh3GX7bABTjGQ", SEARCH_LIST_MAX_RESULTS)
 
 	for _, video := range videos.Items {
 		fmt.Println(video.Id.VideoId)
@@ -53,9 +58,9 @@ func main() {
 		err := cmd.Run()
 
 		if err != nil {
-			fmt.Println("Error downloading video")
+			fmt.Println(fmt.Printf("Error downloading video [%s]", err.Error()))
 		}
+
 		break
 	}
-
 }
