@@ -42,6 +42,7 @@ var (
 
 func main() {
 	flag.Parse()
+
 	reader := bufio.NewReader(os.Stdin)
 
 	client := lib.GetClient(youtube.YoutubeReadonlyScope)
@@ -54,6 +55,7 @@ func main() {
 	subscriptions := lib.SubscriptionsList(service, "snippet", *channelId, *hl, *maxResults, *mine, *onBehalfOfContentOwner, *pageToken, *playlistId)
 
 	choices := make(map[int]string)
+
 	for idx, subscription := range subscriptions.Items {
 		fmt.Println(fmt.Sprintf("%d : %s (%s)", idx, subscription.Snippet.Title, subscription.Snippet.ResourceId.ChannelId))
 		choices[idx] = subscription.Snippet.ResourceId.ChannelId
@@ -62,7 +64,9 @@ func main() {
 	fmt.Println("")
 	fmt.Print("Choose from the above subscriptions which one to download all videos from: ")
 	subscription_id_str, _ := reader.ReadString('\n')
+
 	subscription_id, _ := strconv.Atoi(strings.TrimSuffix(subscription_id_str, "\n"))
+
 	fmt.Println("")
 
 	videos := lib.SearchList(service, "id,snippet", choices[subscription_id], MAX_VIDEOS_DOWNLOAD)

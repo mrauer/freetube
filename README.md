@@ -26,7 +26,7 @@
 <!-- COMMANDS -->
 ## Commands
 
-Once you start the software for the first time you will be asked first to authorize your device.
+Once you start the software for the first time you will be asked to authorize your device.
 
 If you are in the dev environment (TOKEN_FROM_PROMPT set to 1), then you will be asked to visit a web page and get token from there:
 
@@ -34,9 +34,10 @@ If you are in the dev environment (TOKEN_FROM_PROMPT set to 1), then you will be
 ./freetube
 
 
-https://accounts.google.com/o/oauth2/auth?access_type=offline&client_id=xxxxxxxxxxx-lmr26mkmispb12cjjh6i45didpq4pan9.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A8090&response_type=code&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fyoutube.readonly&state=state-token
+https://accounts.google.com/o/oauth2/auth?access_type=offline&clie...
 
-4/0AX4XfWg9TyeoxQ1yvMyE09yA14OM2pXv-CfKOj11h9vsp79YaFaFOotrDSoWxxxxxxxxxx (this is what the token should look like)
+4/0AX4XfWg9TyeoxQ1yvMyE09yA14OM2pXv-CfKOj11h9vsp79YaFaFOotrDSoWxxxxxxxxxx 
+(this is what the token should look like)
 ```
 
 In case you've downloaded the software, a web page will open and you just need to follow the flow. This will only be asked you once until the token expire.
@@ -46,7 +47,7 @@ There might be some conflicts. Make sure that `.credentials/youtube-go.json` is 
 
 From now on your device is authorized and we can proceed with the next step.
 
-The regular command with no arguments should now return your list of channels you've subscribed for.
+The regular command with no arguments should now return the list of channels you've subscribed for.
 
 ```sh
 ./freetube
