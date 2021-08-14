@@ -13,6 +13,6 @@ COPY go.mod .
 COPY go.sum .
 RUN go mod download
 
-RUN curl -Lo youtubedr.tar.gz https://github.com/kkdai/youtube/releases/download/v2.7.0/youtubedr_2.7.0_linux_amd64.tar.gz && tar -xvf youtubedr.tar.gz && chmod +x youtubedr && mv youtubedr /usr/local/bin
+RUN curl -Lo youtubedr.tar.gz https://github.com/kkdai/youtube/releases/download/v2.7.2/youtubedr_2.7.2_linux_amd64.tar.gz && tar -xvf youtubedr.tar.gz && chmod +x youtubedr && mv youtubedr /usr/local/bin
 
 COPY . .

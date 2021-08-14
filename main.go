@@ -53,7 +53,7 @@ func main() {
 		err := cmd.Run()
 
 		if err != nil {
-			fmt.Println("Error downloading video")
+			fmt.Println(fmt.Printf("Error downloading video [%s]", err.Error()))
 		}
 		break
 	}
