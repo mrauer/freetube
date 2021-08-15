@@ -47,6 +47,8 @@ func main() {
 
 	client := lib.GetClient(youtube.YoutubeReadonlyScope)
 
+	history := lib.GetHistory()
+
 	service, err := youtube.New(client)
 	if err != nil {
 		log.Fatalf("Error creating YouTube client: %v", err)
@@ -73,7 +75,13 @@ func main() {
 	videos := lib.SearchList(service, "id,snippet", choices[subscription_id], MAX_VIDEOS_DOWNLOAD)
 
 	t := transform.Chain(norm.NFD, runes.Remove(runes.In(unicode.Mn)), norm.NFC)
+
 	for _, video := range videos.Items {
+		// Check if the file has already been downloaded.
+		if history[video.Id.VideoId] {
+			continue
+		}
+
 		videoTitle, _, _ := transform.String(t, video.Snippet.Title)
 
 		fmt.Println(fmt.Sprintf("Downloading %s", videoTitle))
@@ -83,6 +91,11 @@ func main() {
 
 		if err != nil {
 			fmt.Println(fmt.Printf("Error downloading video [%s]", err.Error()))
+
+			continue
 		}
+
+		history[video.Id.VideoId] = true
+		lib.StoreHistory(history)
 	}
 }

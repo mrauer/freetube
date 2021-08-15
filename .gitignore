@@ -1,5 +1,6 @@
 .DS_Store
 .idea
+*.gob
 client_secret.json
 freetube
 bin/osx/freetube
