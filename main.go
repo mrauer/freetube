@@ -77,7 +77,6 @@ func main() {
 	t := transform.Chain(norm.NFD, runes.Remove(runes.In(unicode.Mn)), norm.NFC)
 
 	for _, video := range videos.Items {
-
 		// Check if the file has already been downloaded.
 		if history[video.Id.VideoId] {
 			continue
