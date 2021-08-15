@@ -75,6 +75,7 @@ func main() {
 	videos := lib.SearchList(service, "id,snippet", choices[subscription_id], MAX_VIDEOS_DOWNLOAD)
 
 	t := transform.Chain(norm.NFD, runes.Remove(runes.In(unicode.Mn)), norm.NFC)
+
 	for _, video := range videos.Items {
 
 		// Check if the file has already been downloaded.
@@ -91,8 +92,10 @@ func main() {
 
 		if err != nil {
 			fmt.Println(fmt.Printf("Error downloading video [%s]", err.Error()))
+
 			continue
 		}
+
 		history[video.Id.VideoId] = true
 		lib.StoreHistory(history)
 	}
